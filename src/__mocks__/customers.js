@@ -1,144 +1,66 @@
 import { v4 as uuid } from 'uuid';
-
-export const customers = [
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'West Virginia',
-      city: 'Parkersburg',
-      street: '2849 Fulton Street'
-    },
-    avatarUrl: '/static/images/avatars/avatar_3.png',
-    createdAt: 1555016400000,
-    email: 'ekaterina.tankova@devias.io',
-    name: 'Ekaterina Tankova',
-    phone: '304-428-3097'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Bristow',
-      city: 'Iowa',
-      street: '1865  Pleasant Hill Road'
-    },
-    avatarUrl: '/static/images/avatars/avatar_4.png',
-    createdAt: 1555016400000,
-    email: 'cao.yu@devias.io',
-    name: 'Cao Yu',
-    phone: '712-351-5711'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Georgia',
-      city: 'Atlanta',
-      street: '4894  Lakeland Park Drive'
-    },
-    avatarUrl: '/static/images/avatars/avatar_2.png',
-    createdAt: 1555016400000,
-    email: 'alexa.richardson@devias.io',
-    name: 'Alexa Richardson',
-    phone: '770-635-2682'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Ohio',
-      city: 'Dover',
-      street: '4158  Hedge Street'
-    },
-    avatarUrl: '/static/images/avatars/avatar_5.png',
-    createdAt: 1554930000000,
-    email: 'anje.keizer@devias.io',
-    name: 'Anje Keizer',
-    phone: '908-691-3242'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Texas',
-      city: 'Dallas',
-      street: '75247'
-    },
-    avatarUrl: '/static/images/avatars/avatar_6.png',
-    createdAt: 1554757200000,
-    email: 'clarke.gillebert@devias.io',
-    name: 'Clarke Gillebert',
-    phone: '972-333-4106'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'California',
-      city: 'Bakerfield',
-      street: '317 Angus Road'
-    },
-    avatarUrl: '/static/images/avatars/avatar_1.png',
-    createdAt: 1554670800000,
-    email: 'adam.denisov@devias.io',
-    name: 'Adam Denisov',
-    phone: '858-602-3409'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'California',
-      city: 'Redondo Beach',
-      street: '2188  Armbrester Drive'
-    },
-    avatarUrl: '/static/images/avatars/avatar_7.png',
-    createdAt: 1554325200000,
-    email: 'ava.gregoraci@devias.io',
-    name: 'Ava Gregoraci',
-    phone: '415-907-2647'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Nevada',
-      city: 'Las Vegas',
-      street: '1798  Hickory Ridge Drive'
-    },
-    avatarUrl: '/static/images/avatars/avatar_8.png',
-    createdAt: 1523048400000,
-    email: 'emilee.simchenko@devias.io',
-    name: 'Emilee Simchenko',
-    phone: '702-661-1654'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Michigan',
-      city: 'Detroit',
-      street: '3934  Wildrose Lane'
-    },
-    avatarUrl: '/static/images/avatars/avatar_9.png',
-    createdAt: 1554702800000,
-    email: 'kwak.seong.min@devias.io',
-    name: 'Kwak Seong-Min',
-    phone: '313-812-8947'
-  },
-  {
-    id: uuid(),
-    address: {
-      country: 'USA',
-      state: 'Utah',
-      city: 'Salt Lake City',
-      street: '368 Lamberts Branch Road'
-    },
-    avatarUrl: '/static/images/avatars/avatar_10.png',
-    createdAt: 1522702800000,
-    email: 'merrile.burgett@devias.io',
-    name: 'Merrile Burgett',
-    phone: '801-301-7894'
-  }
+import { Box, IconButton, Tooltip } from '@mui/material';
+import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
+import DeleteIcon from '@mui/icons-material/Delete';
+import CreateIcon from '@mui/icons-material/Create';
+const rows = [
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'abc' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: "elvissoares1999@gmail.com", event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
+  { id: uuid().substring(0, 4).toUpperCase(), createdAt: new Date().toLocaleDateString(), name: 'Carson Darrin', email: 'elvissoares1999@gmail.com', event: 'Lançamento UP e Celebração de 50 anos Pioneer Brasil' },
 ];
+
+const columns = [
+  { field: 'id', headerClassName: 'super-app-theme--header', headerName: 'ID', width: 80 },
+  { field: 'createdAt', headerClassName: 'super-app-theme--header', headerName: 'DATA DE INSCRIÇÃO', width: 150 },
+  { field: 'name', headerClassName: 'super-app-theme--header', headerName: 'NOME', width: 150 },
+  { field: 'email', headerClassName: 'super-app-theme--header', headerName: 'EMAIL', width: 200 },
+  {
+    field: 'event',
+    headerName: 'EVENTO',
+    headerClassName: 'super-app-theme--header',
+    width: 150,
+  },
+  {
+    field: 'actions',
+    headerClassName: 'super-app-theme--header',
+    headerName: 'AÇÕES',
+    sortable: false,
+    width: 160,
+    renderCell: (params) => {
+      return (
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-around',
+          }}
+        >
+          <Tooltip title="Editar">
+            <IconButton onClick={(e) => console.log(e, params.row)}>
+              <CreateIcon fontSize='medium' />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Visualizar">
+            <IconButton onClick={(e) => console.log(e, params.row)}>
+              <ArrowRightAltIcon fontSize='inherit' />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Deletar">
+            <IconButton onClick={(e) => console.log(e, params.row)}>
+              <DeleteIcon fontSize='inherit' />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      )
+    }
+  },
+];
+
+export { columns, rows };

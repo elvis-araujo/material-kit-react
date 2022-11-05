@@ -4,7 +4,7 @@ import {
   Typography
 } from '@mui/material';
 
-export const CustomerListToolbar = (props) => (
+export const FormsListToolbar = (props) => (
   <Box {...props}>
     <Box
       sx={{
@@ -19,16 +19,8 @@ export const CustomerListToolbar = (props) => (
         sx={{ m: 1 }}
         variant="h4"
       >
-        Convidados
+        Formulários
       </Typography>
-      <Box sx={{ m: 1 }}>
-        <Button
-          color="primary"
-          variant="contained"
-        >
-          Adcionar Convidado
-        </Button>
-      </Box>
     </Box>
   </Box>
 );

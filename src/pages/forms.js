@@ -1,15 +1,15 @@
 import Head from 'next/head';
 import { Box, Container } from '@mui/material';
-import { CustomerListResults } from '../components/customer/customer-list-results';
-import { CustomerListToolbar } from '../components/customer/customer-list-toolbar';
+import { Form } from '../components/forms/forms-list-result';
+import { FormsListToolbar } from '../components/forms/forms-list-toolbar';
 import { DashboardLayout } from '../components/dashboard-layout';
-import { rows, columns } from '../__mocks__/customers';
+
 
 const Page = () => (
   <>
     <Head>
       <title>
-        Covidados | Material Kit
+        Formularios | Material Kit
       </title>
     </Head>
     <Box
@@ -20,9 +20,9 @@ const Page = () => (
       }}
     >
       <Container maxWidth={false}>
-        <CustomerListToolbar />
+        <FormsListToolbar />
         <Box sx={{ mt: 3 }}>
-          <CustomerListResults rows={rows} columns={columns} />
+          <Form />
         </Box>
       </Container>
     </Box>

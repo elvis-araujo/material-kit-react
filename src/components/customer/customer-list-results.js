@@ -1,168 +1,156 @@
 import { useState } from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 import PropTypes from 'prop-types';
-import { format } from 'date-fns';
 import {
-  Avatar,
-  Box,
-  Card,
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TablePagination,
-  TableRow,
-  Typography
+  Box
 } from '@mui/material';
-import { getInitials } from '../../utils/get-initials';
+import TableContainer from '@mui/material/TableContainer';
+import Paper from '@mui/material/Paper';
+import { DataGrid, GridToolbar } from '@mui/x-data-grid';
+import { useDemoData } from '@mui/x-data-grid-generator';
 
-export const CustomerListResults = ({ customers, ...rest }) => {
+export const CustomerListResults = ({ columns, rows, ...rest }) => {
+
+  const translate = {
+    // Root
+    noRowsLabel: 'Nenhuma linha',
+    noResultsOverlayLabel: 'Nenhum resultado encontrado.',
+    errorOverlayDefaultLabel: 'Ocorreu um erro.',
+
+    // Density selector toolbar button text
+    toolbarDensity: 'Densidade',
+    toolbarDensityLabel: 'Densidade',
+    toolbarDensityCompact: 'Compacto',
+    toolbarDensityStandard: 'Padrão',
+    toolbarDensityComfortable: 'Confortável',
+
+    // Columns selector toolbar button text
+    toolbarColumns: 'Colunas',
+    toolbarColumnsLabel: 'Exibir seletor de colunas',
+
+    // Filters toolbar button text
+    toolbarFilters: 'Filtros',
+    toolbarFiltersLabel: 'Exibir filtros',
+    toolbarFiltersTooltipHide: 'Ocultar filtros',
+    toolbarFiltersTooltipShow: 'Exibir filtros',
+    toolbarFiltersTooltipActive: (count) =>
+      `${count} ${count !== 1 ? 'filtros' : 'filtro'} ${count !== 1 ? 'ativos' : 'ativo'}`,
+
+    // Export selector toolbar button text
+    toolbarExport: 'Exportar',
+    toolbarExportLabel: 'Exportar',
+    toolbarExportCSV: 'Baixar como CSV',
+
+    // Columns panel text
+    columnsPanelTextFieldLabel: 'Localizar coluna',
+    columnsPanelTextFieldPlaceholder: 'Título da coluna',
+    columnsPanelDragIconLabel: 'Reordenar Coluna',
+    columnsPanelShowAllButton: 'Mostrar todas',
+    columnsPanelHideAllButton: 'Ocultar todas',
+
+    // Filter panel text
+    filterPanelAddFilter: 'Adicionar filtro',
+    filterPanelDeleteIconLabel: 'Excluir',
+    filterPanelOperators: 'Operadores',
+    filterPanelOperatorAnd: 'E',
+    filterPanelOperatorOr: 'Ou',
+    filterPanelColumns: 'Colunas',
+    filterPanelInputLabel: 'Valor',
+    filterPanelInputPlaceholder: 'Filtrar valor',
+
+    // Filter operators text
+    filterOperatorContains: 'contém',
+    filterOperatorEquals: 'é igual a',
+    filterOperatorStartsWith: 'começa com',
+    filterOperatorEndsWith: 'termina com',
+    filterOperatorIs: 'é',
+    filterOperatorNot: 'não é',
+    filterOperatorOnOrAfter: 'em ou após',
+    filterOperatorBefore: 'antes de',
+    filterOperatorOnOrBefore: 'em ou antes de',
+    filterOperatorAfter: 'após',
+    filterOperatorIsEmpty: 'está vazio',
+    filterOperatorIsNotEmpty: 'não está vazio',
+
+    // Column menu text
+    columnMenuLabel: 'Menu',
+    columnMenuShowColumns: 'Exibir colunas',
+    columnMenuFilter: 'Filtrar',
+    columnMenuHideColumn: 'Ocultar',
+    columnMenuUnsort: 'Desfazer ordenação',
+    columnMenuSortAsc: 'Ordenar do menor para o maior',
+    columnMenuSortDesc: 'Ordenar do maior para o menor',
+
+    // Column header text
+    columnHeaderFiltersTooltipActive: (count) =>
+      `${count} ${count !== 1 ? 'filtros' : 'filtro'} ${count !== 1 ? 'ativos' : 'ativo'}`,
+    columnHeaderFiltersLabel: 'Exibir Filtros',
+    columnHeaderSortIconLabel: 'Ordenar',
+
+    // Rows selected footer text
+    footerRowSelected: (count) =>
+      count !== 1
+        ? `${count.toLocaleString()} linhas selecionadas`
+        : `${count.toLocaleString()} linha selecionada`,
+
+    // Total rows footer text
+    footerTotalRows: 'Total de linhas:',
+
+    // Total visible rows footer text
+    footerTotalVisibleRows: (visibleCount, totalCount) =>
+      `${visibleCount.toLocaleString()} de ${totalCount.toLocaleString()}`,
+
+    // Checkbox selection text
+    checkboxSelectionHeaderName: 'Seleção',
+
+    // Boolean cell text
+    booleanCellTrueLabel: 'sim',
+    booleanCellFalseLabel: 'não',
+
+    // Actions cell more text
+    actionsCellMore: 'mais',
+  }
   const [selectedCustomerIds, setSelectedCustomerIds] = useState([]);
-  const [limit, setLimit] = useState(10);
-  const [page, setPage] = useState(0);
-
-  const handleSelectAll = (event) => {
-    let newSelectedCustomerIds;
-
-    if (event.target.checked) {
-      newSelectedCustomerIds = customers.map((customer) => customer.id);
-    } else {
-      newSelectedCustomerIds = [];
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
-
-  const handleSelectOne = (event, id) => {
-    const selectedIndex = selectedCustomerIds.indexOf(id);
-    let newSelectedCustomerIds = [];
-
-    if (selectedIndex === -1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds, id);
-    } else if (selectedIndex === 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(1));
-    } else if (selectedIndex === selectedCustomerIds.length - 1) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(selectedCustomerIds.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelectedCustomerIds = newSelectedCustomerIds.concat(
-        selectedCustomerIds.slice(0, selectedIndex),
-        selectedCustomerIds.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelectedCustomerIds(newSelectedCustomerIds);
-  };
-
-  const handleLimitChange = (event) => {
-    setLimit(event.target.value);
-  };
-
-  const handlePageChange = (event, newPage) => {
-    setPage(newPage);
-  };
+  const { data } = useDemoData({
+    dataSet: 'Comfortable',
+    rowLength: 20,
+    maxColumns: 6,
+  });
 
   return (
-    <Card {...rest}>
-      <PerfectScrollbar>
-        <Box sx={{ minWidth: 1050 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    checked={selectedCustomerIds.length === customers.length}
-                    color="primary"
-                    indeterminate={
-                      selectedCustomerIds.length > 0
-                      && selectedCustomerIds.length < customers.length
-                    }
-                    onChange={handleSelectAll}
-                  />
-                </TableCell>
-                <TableCell>
-                  Name
-                </TableCell>
-                <TableCell>
-                  Email
-                </TableCell>
-                <TableCell>
-                  Location
-                </TableCell>
-                <TableCell>
-                  Phone
-                </TableCell>
-                <TableCell>
-                  Registration date
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {customers.slice(0, limit).map((customer) => (
-                <TableRow
-                  hover
-                  key={customer.id}
-                  selected={selectedCustomerIds.indexOf(customer.id) !== -1}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomerIds.indexOf(customer.id) !== -1}
-                      onChange={(event) => handleSelectOne(event, customer.id)}
-                      value="true"
-                    />
-                  </TableCell>
-                  <TableCell>
-                    <Box
-                      sx={{
-                        alignItems: 'center',
-                        display: 'flex'
-                      }}
-                    >
-                      <Avatar
-                        src={customer.avatarUrl}
-                        sx={{ mr: 2 }}
-                      >
-                        {getInitials(customer.name)}
-                      </Avatar>
-                      <Typography
-                        color="textPrimary"
-                        variant="body1"
-                      >
-                        {customer.name}
-                      </Typography>
-                    </Box>
-                  </TableCell>
-                  <TableCell>
-                    {customer.email}
-                  </TableCell>
-                  <TableCell>
-                    {`${customer.address.city}, ${customer.address.state}, ${customer.address.country}`}
-                  </TableCell>
-                  <TableCell>
-                    {customer.phone}
-                  </TableCell>
-                  <TableCell>
-                    {format(customer.createdAt, 'dd/MM/yyyy')}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      </PerfectScrollbar>
-      <TablePagination
-        component="div"
-        count={customers.length}
-        onPageChange={handlePageChange}
-        onRowsPerPageChange={handleLimitChange}
-        page={page}
-        rowsPerPage={limit}
-        rowsPerPageOptions={[5, 10, 25]}
-      />
-    </Card>
+    <TableContainer component={Paper}>
+      <Box style={{ height: 500, width: '100%' }}
+        sx={{
+
+          '& .super-app-theme--header': {
+            backgroundColor: '#f3f4f6',
+          },
+        }}
+      >
+        <DataGrid
+          {...data}
+          rows={rows}
+          columns={columns}
+          pageSize={10}
+          density="comfortable"
+          localeText={translate}
+          autoHeight={true}
+          components={{ Toolbar: GridToolbar }}
+          rowsPerPageOptions={[5]}
+          showCellRightBorder
+          showColumnRightBorder
+          getRowId={(row) => row.id}
+          checkboxSelection
+          sx={{
+            "& .MuiDataGrid-row": {
+              borderBottom: "solid #e6e8f0 2px"
+            }
+          }}
+        />
+      </Box>
+    </TableContainer>
   );
 };
 
 CustomerListResults.propTypes = {
-  customers: PropTypes.array.isRequired
+
 };
